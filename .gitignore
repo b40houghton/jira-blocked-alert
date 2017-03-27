@@ -33,6 +33,6 @@ npm-debug.log
 .env
 
 # Compiled Assets
-public/javascript/*.bundle.js
+public/javascripts/*.bundle.js
 public/stylesheets/*.css
 public/stylesheets/*.css.map
