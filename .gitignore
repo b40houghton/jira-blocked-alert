@@ -31,3 +31,8 @@ npm-debug.log
 
 # ENV file
 .env
+
+# Compiled Assets
+public/javascript/*.bundle.js
+public/stylesheets/*.css
+public/stylesheets/*.css.map
