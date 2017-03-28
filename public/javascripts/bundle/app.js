@@ -155,14 +155,14 @@ class BlockedIssueLog extends React.Component {
 		let logList = <pre>Nothing too exciting happening...</pre>;
 
 		if (this.props.log.length > 0) {
-			logList = this.props.log.reverse().map((log, index) => {
+			logList = this.props.log.reverse().slice(0,50).map((log, index) => {
 				return (<pre key={index}>BLOCKED[{index}] - {log.key}: {log.id}</pre>);
 			});
 		}
 
 		return (
 			<div>
-				<h2>Log:</h2>
+				<h2>Recent Activity:</h2>
 				<hr />
 				<div className="blocked-list__log">{logList}</div>
 			</div>);
