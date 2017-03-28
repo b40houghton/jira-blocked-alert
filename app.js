@@ -3,12 +3,14 @@ const http = require('http');
 const request = require('request');
 const path = require('path');
 const WebSocket = require('ws');
+const compression = require('compression');
 const app = express();
 
 require('dotenv').config();
 
 app.set('view engine', 'hbs');
 
+app.use(compression());
 app.use(require('node-sass-middleware')({
   src: path.join(__dirname, 'public'),
   dest: path.join(__dirname, 'public'),
