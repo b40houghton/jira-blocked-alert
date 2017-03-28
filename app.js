@@ -58,9 +58,13 @@ app.get('/', function (req, res) {
 
 
 
-	request(options, callback);
 
-	res.render('index');
+
+	res.render('index', function(err, html) {
+		res.send(html);
+
+		request(options, callback);
+	});
 });
 
 app.post('/jira/blocked/:project/:ticket/', function (req, res) {
