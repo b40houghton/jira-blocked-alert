@@ -27,7 +27,7 @@ app.get('/', function (req, res) {
 		ws.close();
 	}
 
-	ws = new WebSocket(`ws://localhost:2080`);
+	ws = new WebSocket(`ws://localhost:${process.env.PORT}`);
 
 	let headers = {
 		'Authorization': `Basic ${process.env.AUTH}`,
@@ -82,7 +82,7 @@ app.post('/jira/blocked/:project/:ticket/', function (req, res) {
 		ws.close();
 	}
 
-	ws = new WebSocket(`ws://localhost:2080`);
+	ws = new WebSocket(`ws://localhost:${process.env.PORT}`);
 
 	let headers = {
 		'Authorization': `Basic ${process.env.AUTH}`,
