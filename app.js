@@ -5,13 +5,13 @@ const path = require('path');
 const WebSocket = require('ws');
 const compression = require('compression');
 const app = express();
-const ws = new WebSocket(`ws://localhost:2080`);
+let ws;
 
 require('dotenv').config();
 
 app.set('view engine', 'hbs');
 
-// app.use(compression());
+app.use(compression());
 app.use(require('node-sass-middleware')({
   src: path.join(__dirname, 'public'),
   dest: path.join(__dirname, 'public'),
@@ -21,6 +21,13 @@ app.use(require('node-sass-middleware')({
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.get('/', function (req, res) {
+
+	if (ws) {
+		ws.onerror = ws.onopen = ws.onclose = null;
+		ws.close();
+	}
+
+	ws  = new WebSocket(`ws://localhost:2080`);
 
 	let headers = {
 		'Authorization': `Basic ${process.env.AUTH}`,
@@ -49,12 +56,21 @@ app.get('/', function (req, res) {
 		}
 	}
 
+
+
 	request(options, callback);
 
 	res.render('index');
 });
 
 app.post('/jira/blocked/:project/:ticket/', function (req, res) {
+
+	if (ws) {
+		ws.onerror = ws.onopen = ws.onclose = null;
+		ws.close();
+	}
+
+	ws  = new WebSocket(`ws://localhost:2080`);
 
 	let headers = {
 		'Authorization': `Basic ${process.env.AUTH}`,
