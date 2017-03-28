@@ -47,6 +47,8 @@ class BlockedIssueApp extends React.Component {
 		let data = JSON.parse(event.data);
 		let log = this.state.log;
 
+		console.log('message received');
+
 		if (this.state.alert.length) log.push(this.state.alert[0]);
 
 		this.setState(data);
