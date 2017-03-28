@@ -47,8 +47,6 @@ class BlockedIssueApp extends React.Component {
 		let data = JSON.parse(event.data);
 		let log = this.state.log;
 
-		console.log('message received');
-
 		if (this.state.alert.length) log.push(this.state.alert[0]);
 
 		this.setState(data);
@@ -62,6 +60,9 @@ class BlockedIssueApp extends React.Component {
 	}
 
 	handleWebSocketOpen() {
+
+		// send status through WebSocket
+		ws.send(JSON.stringify({status: 'active'}));
 
 		this.setState({
 			status: 'active'
@@ -77,8 +78,6 @@ class BlockedIssueApp extends React.Component {
 	render() {
 
 		let alertClassName = (this.state.alert.length) ? 'alert-active' : 'alert-inactive';
-
-		console.log(this.state);
 
 		return (
 			<div className={"blocked-wrapper " + alertClassName}>
@@ -128,9 +127,6 @@ class BlockedIssueList extends React.Component {
 
 		if (this.props.issues.length) {
 			BlockedIssues = this.props.issues.map((item) => {
-
-				console.log(item);
-
 				return (
 					<li className="blocked-list__item" key={item.id}>
 						<a href={JIRA_URL + item.key} target="_blank">

@@ -13,9 +13,9 @@ app.set('view engine', 'hbs');
 
 app.use(compression());
 app.use(require('node-sass-middleware')({
-  src: path.join(__dirname, 'public'),
-  dest: path.join(__dirname, 'public'),
-  sourceMap: true
+	src: path.join(__dirname, 'public'),
+	dest: path.join(__dirname, 'public'),
+	sourceMap: true
 }));
 
 app.use(express.static(path.join(__dirname, 'public')));
@@ -27,7 +27,7 @@ app.get('/', function (req, res) {
 		ws.close();
 	}
 
-	ws  = new WebSocket(`ws://localhost:2080`);
+	ws = new WebSocket(`ws://localhost:2080`);
 
 	let headers = {
 		'Authorization': `Basic ${process.env.AUTH}`,
@@ -40,8 +40,7 @@ app.get('/', function (req, res) {
 		headers: headers
 	};
 
-	function callback(error, response, body) {
-
+	function handleData(error, response, body) {
 		// only send the issues over
 		if (!error) {
 			let parsedData = JSON.parse(body);
@@ -52,19 +51,28 @@ app.get('/', function (req, res) {
 				},
 				issues: parsedData.issues
 			}
+
+			console.log('Send data through WebSocket');
+
 			ws.send(JSON.stringify(data));
 		}
 	}
 
 
 
+	ws.on('message', function (data) {
+		let parsedData = JSON.parse(data);
 
+		if (parsedData.status === 'active') {
+			console.log('WebSocket active');
+			request(options, handleData);
+		}
 
-	res.render('index', function(err, html) {
-		res.send(html);
-
-		request(options, callback);
 	});
+
+	res.render('index');
+
+
 });
 
 app.post('/jira/blocked/:project/:ticket/', function (req, res) {
@@ -74,7 +82,7 @@ app.post('/jira/blocked/:project/:ticket/', function (req, res) {
 		ws.close();
 	}
 
-	ws  = new WebSocket(`ws://localhost:2080`);
+	ws = new WebSocket(`ws://localhost:2080`);
 
 	let headers = {
 		'Authorization': `Basic ${process.env.AUTH}`,
@@ -138,7 +146,6 @@ wss.on('connection', function connection(ws) {
 	});
 
 	ws.on('message', function incoming(data) {
-
 		wss.clients.forEach(function each(client) {
 			client.send(data)
 		});
