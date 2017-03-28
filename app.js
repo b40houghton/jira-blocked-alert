@@ -125,6 +125,6 @@ wss.on('connection', function connection(ws) {
 	});
 });
 
-server.listen(2080, function listening() {
+server.listen(process.env.PORT || 3000, function listening() {
 	console.log('Listening on %d', server.address().port);
 });
