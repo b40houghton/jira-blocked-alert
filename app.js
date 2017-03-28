@@ -5,6 +5,7 @@ const path = require('path');
 const WebSocket = require('ws');
 const compression = require('compression');
 const app = express();
+const ws = new WebSocket(`ws://localhost:2080`);
 
 require('dotenv').config();
 
@@ -20,7 +21,6 @@ app.use(require('node-sass-middleware')({
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.get('/', function (req, res) {
-	const ws = new WebSocket(`ws://localhost:2080`);
 
 	let headers = {
 		'Authorization': `Basic ${process.env.AUTH}`,
@@ -60,8 +60,6 @@ app.post('/jira/blocked/:project/:ticket/', function (req, res) {
 		'Authorization': `Basic ${process.env.AUTH}`,
 		'Content-Type': 'application/json',
 	};
-
-	const ws = new WebSocket(`ws://localhost:2080`);
 
 	let options = {
 		rejectUnauthorized: false, // not ideal
