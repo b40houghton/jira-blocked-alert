@@ -86,9 +86,8 @@ class BlockedIssueApp extends React.Component {
 					<BlockedIssueLog log={this.state.log} />
 				</div>
 				<div className="blocked-list__column">
-
 					<BlockedIssueStatus status={this.state.status} />
-					<BlockedIssueList issues={this.state.issues} />
+					<BlockedIssueList issues={this.state.issues} status={this.state.status} />
 				</div>
 			</div>
 		);
@@ -122,7 +121,7 @@ class BlockedIssueList extends React.Component {
 	render() {
 
 		let BlockedIssues;
-		let BlockedList = <div className="loader">Loading <img src="/images/loader.svg" /></div>;
+		let BlockedList = (this.props.status !== 'error') ? <div className="loader">Loading <img src="/images/loader.svg" /></div> : <div className="loader">Loading Error</div>;
 
 
 		if (this.props.issues.length) {

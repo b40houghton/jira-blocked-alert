@@ -43,22 +43,34 @@ app.get('/', function (req, res) {
 	function handleData(error, response, body) {
 		// only send the issues over
 		if (!error) {
-			let parsedData = JSON.parse(body);
-			let data = {
-				meta: {
-					total: parsedData.total,
-					max: parsedData.maxResults
-				},
-				issues: parsedData.issues
-			}
+			let parsedData;
+			let data;
 
-			console.log('Send data through WebSocket');
+			try {
+
+				console.log('Send data through WebSocket');
+
+				parsedData = JSON.parse(body);
+				data = {
+					"meta": {
+						"total": parsedData.total,
+						"max": parsedData.maxResults
+					},
+					"issues": parsedData.issues
+				}
+
+			} catch (err) {
+
+				console.log('Send error through WebSocket');
+
+				data = {
+					"status":"error"
+				}
+			}
 
 			ws.send(JSON.stringify(data));
 		}
 	}
-
-
 
 	ws.on('message', function (data) {
 		let parsedData = JSON.parse(data);
