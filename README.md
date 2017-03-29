@@ -11,7 +11,7 @@ To get started, install the dependencies via `npm install`. Next, add the requir
 - `JIRA_JQL` - search JQL to filter tickets
 
 #### Front End Variables
-Replace `<JIRA_URL HERE>` with actual Jira URL
+Replace `<JIRA_URL HERE>` with actual Jira URL:
 
 `const JIRA_URL = "<JIRA_URL HERE>/browse/";`
 
